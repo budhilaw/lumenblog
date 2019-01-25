@@ -1,0 +1,10 @@
+FROM php:7.3.1-fpm
+
+RUN apt-get update
+RUN apt-get install -y apt-utils autoconf pkg-config libssl-dev libz-dev zlib1g-dev libzip-dev libpng-dev
+RUN pecl install mongodb zip
+RUN echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/mongodb.ini
+
+RUN docker-php-ext-install zip && docker-php-ext-install gd \
+    && docker-php-ext-enable zip && docker-php-ext-enable gd \
+    && docker-php-ext-install bcmath

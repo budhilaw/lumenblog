@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./docker-images/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - mongodb
+      - php
+    links:
+      - mongodb
+      - php
+    ports:
+      - "8089:80"
+
+  mongodb:
+    container_name: mongosrv
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  php:
+    container_name: phpsrv
+    build: docker-images/php
+    restart: always
+    volumes:
+      - .:/var/www/html/app/
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
