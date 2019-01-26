@@ -40,10 +40,24 @@ $router->post('/login', 'AuthController@authenticate');
 |----------------------
 */
 $router->group(['middleware' => 'jwt.auth'], function() use ($router) {
-    $router->post('/user', 'UserController@index');
-    $router->post('/user/show', 'UserController@index');
+    $router->get('/user', 'UserController@index');
+    $router->get('/user/show', 'UserController@index');
+    $router->get('/user/show/{id}', 'UserController@show');
 
     $router->post('/user/new', 'UserController@create');
-    $router->post('/user/show/{id}', 'UserController@show');
     $router->post('/user/edit/{id}', 'UserController@edit');
+});
+
+/*
+|----------------------
+| Posts Features
+|----------------------
+*/
+$router->group(['middleware' => 'jwt.auth'], function() use ($router) {
+    $router->get('/post/test/{id}', 'PostController@test');
+    $router->get('/post/show/{id}', 'PostController@show');
+
+    $router->post('/post/new', 'PostController@create');
+    $router->post('/post/edit/{id}', 'PostController@edit');
+    $router->delete('/post/delete/{id}', 'PostController@delete');
 });
