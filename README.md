@@ -1,1 +1,1 @@
-# lumenblog
+# Lumenblog - Blog API using Lumen
